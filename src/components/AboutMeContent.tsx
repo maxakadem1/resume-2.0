@@ -1,73 +1,42 @@
-import { animated } from "@react-spring/web"
-import Link from "next/link"
-import type { ComponentProps } from "react"
-// icons
-import { FiArrowUpRight } from "react-icons/fi"
+import Panel, { type PanelProps } from '@/components/Panel'
+import { InlineLink } from '@/components/links'
+import { profile } from '@/content/profile'
 
-type AnimatedDivStyle = ComponentProps<typeof animated.div>["style"]
-
-interface Props {
-  resumeProps: AnimatedDivStyle
-  goBack: () => void
-}
-
-const AboutMeContent: React.FC<Props> = ({ resumeProps, goBack }) => {
+export default function AboutMeContent({ style, onBack }: PanelProps) {
   return (
-    <animated.div style={resumeProps}>
-      <div className="flex flex-col lg:h-[65vh] md:h-[60vh] h-[75vh]">
-        <div className="pb-6">
-          <div className="text-xl font-semibold text-gray-300">About Me</div>
-          <button
-            onClick={goBack}
-            className="text-gray-500 hover:text-white w-fit"
-          >
-            Go Back
-          </button>
-        </div>
-
-        <div className="flex flex-col gap-4 overflow-y-auto relative pr-4 text-base">
-          <div className="text-gray-300">
-            Hello! My name is Max, and I am a software developer and UI/UX
-            designer
-          </div>
-          <div className="text-gray-300">
-            I am highly experienced in complex front-end systems and
-            architecture design, and I am currently working as a full stack
-            developer in NextJS and React Native.
-          </div>
-          <div className="text-gray-300">
-            I am a big fan of casually drawing in my spare time, and you can
-            find my art{" "}
-            <Link
-              href="/projects/artwork"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-300"
-            >
-              here
-              <FiArrowUpRight className="inline-block" />
-            </Link>
-            .
-          </div>
-          <br />
-          <div className="text-gray-300">
-            If you want to get in touch regarding my projects, my portfolio or
-            possible job opportunities, feel free to reach out to me on my{" "}
-            <Link
-              href="https://www.linkedin.com/in/abdulkhalikov/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-300"
-            >
-              LinkedIn
-              <FiArrowUpRight className="inline-block" />
-            </Link>{" "}
-            or any of my socials listed on the contact page.
-          </div>
-        </div>
-      </div>
-    </animated.div>
+    <Panel
+      title='About'
+      style={style}
+      onBack={onBack}
+      bodyClassName='flex flex-col gap-4 text-base text-gray-300'
+    >
+      <p>
+        I’m a frontend developer in Winnipeg. I build the shared platform behind
+        Pollard Banknote’s lottery products: the widget system, component
+        library, and API layer that client web and mobile apps for 8 lottery
+        clients are built on, serving millions of players.
+      </p>
+      <p>
+        I like owning systems end to end: making the architecture call,
+        building it, getting it to production, and making it easy for the next
+        developer to work in. Lately that means acting as technical lead on
+        client launches and being the person about 15 developers come to when
+        something is stuck.
+      </p>
+      <p>
+        I studied art and design before computer science, and it still shapes
+        how I work. I care about how an interface feels, not only whether it
+        works. I still draw in my spare time, and some of it is{' '}
+        <InlineLink href='/projects/artwork'>here</InlineLink>.
+      </p>
+      <p>
+        For roles or collaborations, reach me by{' '}
+        <InlineLink href={`mailto:${profile.email}`} newTab={false}>
+          email
+        </InlineLink>{' '}
+        or on{' '}
+        <InlineLink href={profile.links.linkedin}>LinkedIn</InlineLink>.
+      </p>
+    </Panel>
   )
 }
-
-export default AboutMeContent

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import HomePage from '@/components/HomePage'
 import { initGA, logPageView } from '../../analytics'
 
@@ -19,9 +19,5 @@ export default function Home() {
     logPageView()
   }, [])
 
-  return (
-    <>
-      <HomePage />
-    </>
-  )
+  return <HomePage />
 }

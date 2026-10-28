@@ -3,9 +3,10 @@
 <img width="1392" height="1215" alt="image" src="https://github.com/user-attachments/assets/8237fb82-efa9-4c0d-9d87-db71a9c031e4" />
 
 
-A personal portfolio and resume website for Maxim Abdulkhalikov. The app
-showcases professional experience, project case studies, artwork, contact links,
-and an embedded resume PDF.
+Portfolio and resume site for Maxim Abdulkhalikov, a frontend developer working
+in React, TypeScript, and Next.js. It covers professional experience, case
+studies from production work, earlier design projects, artwork, and an embedded
+resume PDF.
 
 The site is built as a small static-friendly Next.js application with App Router
 routes, Tailwind styling, animated section transitions, and locally hosted media
@@ -25,7 +26,11 @@ assets.
 
 - Minimal single-screen home experience with animated background media.
 - Interactive content panels for experience, projects, about, and contact.
-- Standalone project pages with image galleries.
+- Typed content layer in `src/content/` that drives every panel and page.
+- Case study pages with before/after metrics, plus image galleries for earlier
+  work, all generated statically from one `/projects/[slug]` route.
+- Semantic, accessible markup: landmarks, heading hierarchy, labelled toggles,
+  and screen-reader hints for links that open a new tab.
 - Embedded PDF resume route.
 - Open Graph and Twitter metadata using `public/Header.png`.
 - GA4 page-view tracking.
@@ -37,11 +42,7 @@ assets.
 | ------------------------ | ---------------------------------------- |
 | `/`                      | Home page and interactive portfolio menu |
 | `/resume`                | Embedded `public/Resume.pdf` viewer      |
-| `/projects/artwork`      | Personal artwork gallery                 |
-| `/projects/devclub`      | UofM DevClub project page                |
-| `/projects/musica`       | Musica project page                      |
-| `/projects/musicAnimals` | Music Animals project page               |
-| `/projects/packetvis`    | PacketVis project page                   |
+| `/projects/[slug]`       | Case study or gallery page per project   |
 
 ## Project Structure
 
@@ -61,15 +62,27 @@ assets.
 │   │   ├── layout.tsx
 │   │   ├── page.tsx
 │   │   ├── resume/page.tsx
-│   │   └── projects/*/page.tsx
+│   │   └── projects/[slug]/page.tsx
+│   ├── content/
+│   │   ├── profile.ts
+│   │   ├── experience.ts
+│   │   └── projects.tsx
 │   └── components/
 │       ├── HomePage.tsx
+│       ├── Panel.tsx
 │       ├── ProjectDetailPage.tsx
+│       ├── links.tsx
 │       └── content section components
 ├── eslint.config.mjs
 ├── tailwind.config.ts
 └── package.json
 ```
+
+## Editing Content
+
+All copy lives in `src/content/`. `experience.ts` mirrors `public/Resume.pdf`,
+so update both together. To add a project, append an entry to `caseStudies` or
+`galleryProjects` in `projects.tsx`; its page and menu link are generated.
 
 ## Getting Started
 

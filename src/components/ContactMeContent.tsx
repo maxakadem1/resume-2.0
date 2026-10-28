@@ -1,61 +1,31 @@
-import { animated } from '@react-spring/web'
-import Link from 'next/link'
-import type { ComponentProps } from 'react'
-// icons
-import { FiArrowUpRight } from 'react-icons/fi'
+import Panel, { type PanelProps } from '@/components/Panel'
+import { MenuLink } from '@/components/links'
+import { profile } from '@/content/profile'
 
-type AnimatedDivStyle = ComponentProps<typeof animated.div>['style']
-
-interface Props {
-  resumeProps: AnimatedDivStyle
-  goBack: () => void
-}
-
-const ContactMeContent: React.FC<Props> = ({ resumeProps, goBack }) => {
+export default function ContactMeContent({ style, onBack }: PanelProps) {
   return (
-    <animated.div style={resumeProps}>
-      <div className='flex flex-col lg:h-[65vh] md:h-[60vh] h-[75vh]'>
-        <div className='pb-6'>
-          <div className='text-xl font-semibold text-gray-300'>Contacts</div>
-          <button
-            onClick={goBack}
-            className='text-gray-500 hover:text-white w-fit'
-          >
-            Go Back
-          </button>
-        </div>
-        <div className='flex flex-col gap-2 overflow-y-auto'>
-          <Link
-            href='mailto:abdulhalikov0@gmail.com'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='flex flex-row items-center justify-center text-gray-500 hover:text-white w-fit transform transition-transform duration-300 ease-in-out hover:translate-x-3'
-          >
-            <h1 className=''>Email</h1>
-            <FiArrowUpRight className='ml-1' size={17} />
-          </Link>
-          <Link
-            href='https://www.linkedin.com/in/abdulkhalikov/'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='flex flex-row items-center justify-center text-gray-500 hover:text-white w-fit transform transition-transform duration-300 ease-in-out hover:translate-x-3'
-          >
-            <h1 className=''>LinkedIn</h1>
-            <FiArrowUpRight className='ml-1' size={17} />
-          </Link>
-          <Link
-            href='https://github.com/maxakadem1'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='flex flex-row items-center justify-center text-gray-500 hover:text-white w-fit transform transition-transform duration-300 ease-in-out hover:translate-x-3'
-          >
-            <h1 className=''>GitHub</h1>
-            <FiArrowUpRight className='ml-1' size={17} />
-          </Link>
-        </div>
-      </div>
-    </animated.div>
+    <Panel
+      title='Contact'
+      style={style}
+      onBack={onBack}
+      bodyClassName='flex flex-col gap-4'
+    >
+      <ul className='flex flex-col gap-2'>
+        <li>
+          <MenuLink href={`mailto:${profile.email}`} newTab={false}>
+            {profile.email}
+          </MenuLink>
+        </li>
+        <li>
+          <MenuLink href={profile.links.linkedin}>LinkedIn</MenuLink>
+        </li>
+        <li>
+          <MenuLink href={profile.links.github}>GitHub</MenuLink>
+        </li>
+        <li>
+          <MenuLink href='/resume'>Resume (PDF)</MenuLink>
+        </li>
+      </ul>
+    </Panel>
   )
 }
-
-export default ContactMeContent
