@@ -25,7 +25,7 @@ import { featured } from '@/content/projects'
 const icons: Record<SectionId, IconType> = {
   overview: LuHome,
   projects: LuFolderGit2,
-  pollard: LuBriefcase,
+  work: LuBriefcase,
   experience: LuGraduationCap,
   about: LuUser,
   contact: LuMail,

@@ -45,7 +45,7 @@ export default function Hero() {
           </p>
 
           <div className='flex flex-wrap items-center gap-2'>
-            <a href='#pollard' className={buttonClass('primary', 'lg')}>
+            <a href='#work' className={buttonClass('primary', 'lg')}>
               See my work
               <LuArrowDown aria-hidden />
             </a>

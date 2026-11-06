@@ -33,9 +33,9 @@ hairline borders, dense Inter and JetBrains Mono type, a sidebar shell and a
 - Featured project cards with screenshots, stats and links. The Visual Lab card
   runs a small WebGL port of its effects (pixelate, palette map, ordered dither,
   scan lines) live on the glass render.
-- Glass 3D logos for Pollard and Godot Docs RAG, ported from godot-rag: the
+- Glass 3D logos for Pollard, OutreachGenius and Godot Docs RAG, ported from godot-rag: the
   flat logo becomes a distance field, then a rounded mesh in transmission glass.
-- The Pollard work written as one plain-language block, like the projects.
+- Work history (Pollard, OutreachGenius) written as plain-language blocks, like the projects.
 - Experience timeline, skills, artwork grid and a contact card with copy-email.
 - Gallery pages for earlier work and design, generated from one route. Old
   case-study URLs redirect to the Work section on the home page.

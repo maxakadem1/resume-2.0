@@ -10,7 +10,7 @@ const nextConfig = {
       'arizona-relaunch',
     ].map((slug) => ({
       source: `/projects/${slug}`,
-      destination: '/#pollard',
+      destination: '/#work',
       permanent: true,
     }))
   },

@@ -60,7 +60,7 @@ function loadImage(src: string) {
 export const glassLogos = {
   godot: {
     label: 'Spinning 3D Godot logo in blue glass. Drag to spin it.',
-    attenuation: '#1f3cff',
+    attenuation: '#3a46ff',
     scale: 1.08,
     shape: {
       center: { x: 512, y: 491 },
@@ -88,7 +88,7 @@ export const glassLogos = {
   },
   pollard: {
     label: 'Spinning 3D Pollard Banknote logo in blue glass. Drag to spin it.',
-    attenuation: '#1f50ff',
+    attenuation: '#3a46ff',
     scale: 1.3,
     // The mark is thin strokes, so it is grown into rounded tubes rather than a slab.
     shape: {
@@ -105,6 +105,34 @@ export const glassLogos = {
     // White mark on black, traced from the app icon (public/logos/pollard-mask.png).
     async draw(ctx) {
       ctx.drawImage(await loadImage('/logos/pollard-mask.png'), 0, 0, 1024, 1024)
+    },
+  },
+  outreachgenius: {
+    label: 'Spinning 3D OutreachGenius logo in indigo glass. Drag to spin it.',
+    attenuation: '#3a46ff',
+    scale: 1.15,
+    // The icon from the OutreachGenius logo, without the wordmark.
+    shape: {
+      center: { x: 512, y: 512 },
+      span: 1000,
+      grid: 128,
+      halfThickness: 50,
+      bulge: 12,
+      bulgeWidth: 50,
+      rounding: 36,
+      cornerSoftening: 6,
+      bulgeSmoothing: 14,
+    },
+    // public/logos/outreachgenius.svg is 295.4 x 187.6: fit it 900 units wide, centred.
+    async draw(ctx) {
+      const w = 900
+      const h = (w * 187.6) / 295.4
+      ctx.drawImage(await loadImage('/logos/outreachgenius.svg'), (1024 - w) / 2, (1024 - h) / 2, w, h)
+      // The icon is navy: turn every pixel it covers white.
+      ctx.globalCompositeOperation = 'source-in'
+      ctx.fillStyle = '#fff'
+      ctx.fillRect(0, 0, 1024, 1024)
+      ctx.globalCompositeOperation = 'source-over'
     },
   },
 } satisfies Record<string, GlassLogoSpec>

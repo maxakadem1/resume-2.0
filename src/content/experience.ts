@@ -15,9 +15,9 @@ export interface SkillGroup {
   items: string[]
 }
 
+// Details for these live in the Work section, so the timeline only names them.
 export const roles: Entry[] = [
   {
-    // Details live in the Work section, so the timeline only names the role.
     title: 'Software Developer, Core Product Team',
     organization: 'Pollard Banknote',
     url: 'https://www.pollardbanknote.com/',
@@ -32,10 +32,6 @@ export const roles: Entry[] = [
     location: 'Winnipeg, MB',
     start: 'May 2023',
     end: 'Jan 2024',
-    bullets: [
-      'One of the first engineers at an early-stage startup: built the web app, Chrome extension and Tailwind design system on Firebase.',
-      'Moved the extension from legacy Vue to React and TypeScript as it grew from 0 to 500+ users.',
-    ],
   },
 ]
 
