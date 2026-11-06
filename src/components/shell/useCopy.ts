@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 /** Copies text and reports `copied` for a moment afterwards. */
 export function useCopy(timeout = 1600) {
   const [copied, setCopied] = useState(false)
-  const timer = useRef<ReturnType<typeof setTimeout>>()
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   useEffect(() => () => clearTimeout(timer.current), [])
 

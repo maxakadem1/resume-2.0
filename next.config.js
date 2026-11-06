@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Pollard case studies used to have their own pages; they now live on the
-  // home page, so old links land on the right card.
+  // Pollard case studies used to have their own pages; they are now one
+  // Work section on the home page, so old links land there.
   async redirects() {
     return [
       'widget-platform',
@@ -10,7 +10,7 @@ const nextConfig = {
       'arizona-relaunch',
     ].map((slug) => ({
       source: `/projects/${slug}`,
-      destination: `/#${slug}`,
+      destination: '/#pollard',
       permanent: true,
     }))
   },

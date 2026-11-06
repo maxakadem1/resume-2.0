@@ -100,11 +100,6 @@ export default function Sidebar({
           <a key={p.slug} href={href(p.slug)} className={row}>
             <Dot accent={p.accent} />
             <span className='truncate'>{p.title}</span>
-            {p.live && (
-              <span className='ml-auto text-3xs uppercase tracking-wider text-faint'>
-                live
-              </span>
-            )}
           </a>
         ))}
       </div>
@@ -113,7 +108,6 @@ export default function Sidebar({
         <Link href='/resume' className={row}>
           <LuFileText aria-hidden />
           Resume
-          <span className='ml-auto text-2xs text-faint'>PDF</span>
         </Link>
         <a
           href={profile.links.github}

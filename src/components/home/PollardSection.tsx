@@ -1,118 +1,70 @@
 import { LuArrowUpRight } from 'react-icons/lu'
-import { Badge, Dot, SectionHeader } from '@/components/ui'
-import { caseStudies, pollard, type Metric } from '@/content/work'
-
-function MetricValue({ metric, large }: { metric: Metric; large?: boolean }) {
-  return (
-    <div className='flex flex-col gap-1'>
-      <div
-        className={
-          large
-            ? 'flex flex-wrap items-baseline gap-x-2.5 text-[34px] font-medium leading-none tracking-[-0.03em] text-foreground sm:text-[40px]'
-            : 'flex flex-wrap items-baseline gap-x-2 text-lg font-medium tracking-tight text-foreground'
-        }
-      >
-        {metric.before && (
-          <>
-            <span className={large ? 'text-xl text-faint line-through decoration-faint/50 sm:text-2xl' : 'text-sm text-faint line-through decoration-faint/50'}>
-              {metric.before}
-            </span>
-            <span className='sr-only'> to </span>
-          </>
-        )}
-        {metric.value}
-      </div>
-      <div className='text-2xs text-faint'>{metric.label}</div>
-    </div>
-  )
-}
+import GlassLogo from '@/components/three/GlassLogo'
+import { Badge, SectionHeader } from '@/components/ui'
+import { pollard } from '@/content/work'
 
 export default function PollardSection() {
   return (
-    <section id='pollard' aria-labelledby='pollard-title' className='scroll-mt-16 pt-28 md:pt-36'>
-      <SectionHeader
-        index='02'
-        eyebrow='Day job'
-        title={
-          <span id='pollard-title'>
-            The platform behind lottery apps played by millions.
-          </span>
-        }
-      >
-        {pollard.intro}
-      </SectionHeader>
+    <section id='pollard' aria-labelledby='pollard-title' className='scroll-mt-16 pt-24 md:pt-32'>
+      <SectionHeader id='pollard-title' title='Work' />
 
-      <div className='mb-4 flex flex-wrap items-center gap-2 text-[13px]'>
-        <a
-          href={pollard.companyUrl}
-          target='_blank'
-          rel='noopener noreferrer'
-          className='group flex items-center gap-1.5 font-medium text-foreground'
-        >
-          {pollard.company}
-          <LuArrowUpRight className='size-3 text-faint group-hover:text-foreground' aria-hidden />
-          <span className='sr-only'> (opens in a new tab)</span>
-        </a>
-        <span className='text-faint'>·</span>
-        <span className='text-muted'>
-          {pollard.title}, {pollard.team}
-        </span>
-        <Badge className='ml-auto'>
-          <Dot accent='mint' />
-          {pollard.start} – {pollard.end}
-        </Badge>
-      </div>
+      <article className='grid items-start gap-8 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-12'>
+        <div className='surface-dots relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-[#030303] xl:sticky xl:top-20'>
+          <GlassLogo name='pollard' />
+        </div>
 
-      <div className='grid gap-3 md:grid-cols-2'>
-        {caseStudies.map((study) => (
-          <article
-            key={study.slug}
-            id={study.slug}
-            className='group flex scroll-mt-20 flex-col rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-line-strong sm:p-6'
-          >
-            <div className='flex items-center justify-between gap-3'>
-              <h3 className='text-[15px] font-medium text-foreground'>{study.title}</h3>
-              <ul className='hidden flex-wrap justify-end gap-1 sm:flex' aria-label='Stack'>
-                {study.stack.slice(0, 3).map((s) => (
-                  <li key={s}>
-                    <Badge className='text-3xs'>{s}</Badge>
-                  </li>
-                ))}
-              </ul>
+        <div className='flex min-w-0 flex-col gap-5'>
+          <div className='flex flex-col gap-2'>
+            <div className='flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1'>
+              <h3 className='text-2xl font-medium tracking-tight text-foreground sm:text-[28px]'>
+                <a
+                  href={pollard.companyUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='group inline-flex items-center gap-2'
+                >
+                  {pollard.company}
+                  <LuArrowUpRight className='size-4 text-faint transition-colors group-hover:text-foreground' aria-hidden />
+                  <span className='sr-only'> (opens in a new tab)</span>
+                </a>
+              </h3>
+              <span className='text-2xs text-faint'>
+                {pollard.start} – {pollard.end}
+              </span>
             </div>
-            <p className='mt-1 text-[13px] text-muted'>{study.summary}</p>
-
-            <div className='mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-4 border-b border-line pb-6'>
-              <MetricValue metric={study.metric} large />
-              {study.secondary && <MetricValue metric={study.secondary} />}
-            </div>
-
-            <dl className='mt-5 grid gap-3 text-[13px] leading-relaxed'>
-              {(
-                [
-                  ['Problem', study.problem],
-                  ['What I did', study.approach],
-                  ['Result', study.result],
-                ] as const
-              ).map(([label, body]) => (
-                <div key={label} className='grid gap-0.5 sm:grid-cols-[88px_minmax(0,1fr)] sm:gap-3'>
-                  <dt className='text-faint'>{label}</dt>
-                  <dd className={label === 'Result' ? 'text-foreground' : 'text-muted'}>{body}</dd>
-                </div>
-              ))}
-            </dl>
-          </article>
-        ))}
-      </div>
-
-      <div className='mt-3 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4'>
-        {pollard.alsoBuilt.map((item) => (
-          <div key={item.title} className='flex flex-col gap-1 bg-black p-4'>
-            <h3 className='font-mono text-2xs text-mint'>{item.title}</h3>
-            <p className='text-[13px] leading-relaxed text-muted'>{item.body}</p>
+            <p className='text-[13px] text-muted'>{pollard.title}</p>
+            <p className='text-pretty text-[15px] leading-relaxed text-sky'>{pollard.tagline}</p>
           </div>
-        ))}
-      </div>
+
+          <dl className='grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line'>
+            {pollard.stats.map((s) => (
+              <div key={s.label} className='flex flex-col gap-0.5 bg-black px-3 py-2.5'>
+                <dt className='text-2xs leading-snug text-faint'>{s.label}</dt>
+                <dd className='order-first text-lg font-medium tracking-tight text-foreground'>
+                  {s.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <ul className='flex flex-col gap-2 text-[13px] leading-relaxed text-muted'>
+            {pollard.highlights.map((h) => (
+              <li key={h} className='flex gap-2.5'>
+                <span aria-hidden className='mt-[0.55em] size-1 shrink-0 rounded-full bg-sky' />
+                {h}
+              </li>
+            ))}
+          </ul>
+
+          <ul className='flex flex-wrap gap-1.5' aria-label='Built with'>
+            {pollard.stack.map((s) => (
+              <li key={s}>
+                <Badge>{s}</Badge>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </article>
     </section>
   )
 }

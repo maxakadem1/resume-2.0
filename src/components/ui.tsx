@@ -105,24 +105,20 @@ export function Dot({
 /* -------------------------------- Section -------------------------------- */
 
 export function SectionHeader({
-  index,
-  eyebrow,
+  id,
   title,
   children,
 }: {
-  index: string
-  eyebrow: string
+  id: string
   title: ReactNode
   children?: ReactNode
 }) {
   return (
-    <header className='mb-8 flex flex-col gap-3 md:mb-10'>
-      <div className='flex items-center gap-2 font-mono text-2xs uppercase tracking-wider text-faint'>
-        <span>{index}</span>
-        <span className='h-px w-6 bg-line-strong' />
-        <span>{eyebrow}</span>
-      </div>
-      <h2 className='text-balance text-2xl font-medium tracking-tight text-foreground md:text-3xl'>
+    <header className='mb-8 flex flex-col gap-2 md:mb-10'>
+      <h2
+        id={id}
+        className='text-balance text-2xl font-medium tracking-tight text-foreground md:text-3xl'
+      >
         {title}
       </h2>
       {children && (

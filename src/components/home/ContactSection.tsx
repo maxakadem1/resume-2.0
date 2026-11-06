@@ -3,14 +3,14 @@
 import { LuCheck, LuCopy, LuGithub, LuLinkedin } from 'react-icons/lu'
 import RenderVideo from './RenderVideo'
 import { useCopy } from '@/components/shell/useCopy'
-import { ButtonLink, buttonClass } from '@/components/ui'
+import { ButtonLink } from '@/components/ui'
 import { profile, renders } from '@/content/profile'
 
 export default function ContactSection() {
   const { copied, copy } = useCopy()
 
   return (
-    <section id='contact' aria-labelledby='contact-title' className='scroll-mt-16 pt-28 md:pt-36'>
+    <section id='contact' aria-labelledby='contact-title' className='scroll-mt-16 pt-24 md:pt-32'>
       <div className='surface-dots relative overflow-hidden rounded-2xl border border-line bg-[#030303]'>
         <div
           aria-hidden
@@ -18,11 +18,6 @@ export default function ContactSection() {
         />
         <div className='relative grid items-center md:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)]'>
           <div className='flex flex-col gap-5 p-6 sm:p-10 lg:p-14'>
-            <div className='flex items-center gap-2 font-mono text-2xs uppercase tracking-wider text-faint'>
-              <span>05</span>
-              <span className='h-px w-6 bg-line-strong' />
-              <span>Contact</span>
-            </div>
             <h2
               id='contact-title'
               className='text-balance text-3xl font-medium tracking-tight text-foreground sm:text-5xl'
@@ -30,8 +25,8 @@ export default function ContactSection() {
               Let’s build something.
             </h2>
             <p className='max-w-md text-pretty text-[15px] leading-relaxed text-muted'>
-              I’m happy to talk about frontend and platform roles, or anything
-              you saw here. Email is the fastest way to reach me.
+              Open to frontend and platform roles. Email is the fastest way to
+              reach me.
             </p>
 
             <button
@@ -58,9 +53,6 @@ export default function ContactSection() {
             </button>
 
             <div className='flex flex-wrap gap-2'>
-              <a href={`mailto:${profile.email}`} className={buttonClass('primary')}>
-                Send an email
-              </a>
               <ButtonLink href={profile.links.linkedin} variant='outline' arrow={false}>
                 <LuLinkedin aria-hidden />
                 LinkedIn
@@ -68,9 +60,6 @@ export default function ContactSection() {
               <ButtonLink href={profile.links.github} variant='outline' arrow={false}>
                 <LuGithub aria-hidden />
                 GitHub
-              </ButtonLink>
-              <ButtonLink href='/resume' variant='ghost' arrow={false}>
-                Resume
               </ButtonLink>
             </div>
           </div>
@@ -87,8 +76,7 @@ export default function ContactSection() {
 
       <footer className='flex flex-col gap-2 py-10 text-2xs text-faint sm:flex-row sm:items-center sm:justify-between'>
         <span>
-          © {new Date().getFullYear()} {profile.name}. Built with Next.js,
-          TypeScript and Tailwind. 3D renders made in Blender.
+          © {new Date().getFullYear()} {profile.name}
         </span>
         <a
           href={profile.links.source}

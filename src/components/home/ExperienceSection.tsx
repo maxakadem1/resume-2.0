@@ -1,6 +1,6 @@
 import { LuArrowUpRight, LuDownload } from 'react-icons/lu'
-import { Badge, ButtonLink, SectionHeader, cn } from '@/components/ui'
-import { education, roles, skills, type Entry } from '@/content/experience'
+import { Badge, SectionHeader, cn } from '@/components/ui'
+import { education, roles, skills, volunteering, type Entry } from '@/content/experience'
 
 function Timeline({ entries }: { entries: Entry[] }) {
   return (
@@ -71,22 +71,25 @@ function Timeline({ entries }: { entries: Entry[] }) {
 
 export default function ExperienceSection() {
   return (
-    <section id='experience' aria-labelledby='experience-title' className='scroll-mt-16 pt-28 md:pt-36'>
-      <SectionHeader
-        index='03'
-        eyebrow='Experience'
-        title={<span id='experience-title'>Where I’ve worked and studied.</span>}
-      />
+    <section id='experience' aria-labelledby='experience-title' className='scroll-mt-16 pt-24 md:pt-32'>
+      <SectionHeader id='experience-title' title='Experience' />
 
       <div className='grid gap-12 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] xl:gap-16'>
         <div className='flex flex-col gap-12'>
           <Timeline entries={roles} />
-          <div>
-            <h3 className='mb-5 text-2xs font-medium uppercase tracking-wider text-faint'>
-              Education
-            </h3>
-            <Timeline entries={education} />
-          </div>
+          {(
+            [
+              ['Volunteering', volunteering],
+              ['Education', education],
+            ] as const
+          ).map(([label, entries]) => (
+            <div key={label}>
+              <h3 className='mb-5 text-2xs font-medium uppercase tracking-wider text-faint'>
+                {label}
+              </h3>
+              <Timeline entries={entries} />
+            </div>
+          ))}
         </div>
 
         <div className='flex flex-col gap-4'>
@@ -109,15 +112,10 @@ export default function ExperienceSection() {
               ))}
             </dl>
           </div>
-          <div className='flex flex-wrap gap-2'>
-            <ButtonLink href='/resume' variant='outline' arrow={false}>
-              View resume
-            </ButtonLink>
-            <a href='/Resume.pdf' download className='inline-flex h-8 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-muted transition-colors hover:bg-hover hover:text-foreground'>
-              <LuDownload className='size-3.5' aria-hidden />
-              Download PDF
-            </a>
-          </div>
+          <a href='/Resume.pdf' download className='inline-flex h-8 w-fit items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-muted transition-colors hover:bg-hover hover:text-foreground'>
+            <LuDownload className='size-3.5' aria-hidden />
+            Download resume (PDF)
+          </a>
         </div>
       </div>
     </section>

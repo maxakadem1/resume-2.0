@@ -17,18 +17,13 @@ export interface SkillGroup {
 
 export const roles: Entry[] = [
   {
+    // Details live in the Work section, so the timeline only names the role.
     title: 'Software Developer, Core Product Team',
     organization: 'Pollard Banknote',
     url: 'https://www.pollardbanknote.com/',
     location: 'Winnipeg, MB',
     start: 'Mar 2024',
     end: 'Present',
-    bullets: [
-      'Own the shared platform behind Pollard’s lottery products: client web and mobile apps plus an embeddable widget system running 40+ widgets in production for each of 8 clients, serving millions of players.',
-      'Architected the widget system and 30+ React components; built react-core, the shared TypeScript API layer, and Konsole, an internal records tool.',
-      'Acting tech lead for Arizona’s relaunch: led 8 developers over 12 weeks and shipped on time to 30,000+ players.',
-      'Led the CRA to Vite and Next.js migrations; built the package release pipelines and deploy production Next.js on AWS Amplify.',
-    ],
   },
   {
     title: 'Frontend Architect and Developer',
@@ -38,10 +33,13 @@ export const roles: Entry[] = [
     start: 'May 2023',
     end: 'Jan 2024',
     bullets: [
-      'One of the first engineers at an early-stage startup: architected the web app and Chrome extension, a Tailwind design system, and Firebase real-time data and auth.',
-      'Migrated the Chrome extension from legacy Vue to React and TypeScript as it grew from 0 to 500+ users.',
+      'One of the first engineers at an early-stage startup: built the web app, Chrome extension and Tailwind design system on Firebase.',
+      'Moved the extension from legacy Vue to React and TypeScript as it grew from 0 to 500+ users.',
     ],
   },
+]
+
+export const volunteering: Entry[] = [
   {
     title: 'Promotions Executive, Lead Designer',
     organization: 'DevClub / Hackathon Winnipeg',
@@ -50,7 +48,7 @@ export const roles: Entry[] = [
     start: 'Apr 2022',
     end: 'Present',
     bullets: [
-      'Organized the largest UofM hackathon since 2015 and secured sponsors for events of 200–300+ students.',
+      'Organized the largest UofM hackathon since 2015, for 200–300+ students.',
     ],
   },
 ]
@@ -91,7 +89,7 @@ export const skills: SkillGroup[] = [
   },
   {
     label: 'AI and data',
-    items: ['RAG', 'OpenAI', 'Pinecone', 'BM25', 'Evaluation harnesses'],
+    items: ['RAG', 'OpenAI', 'Pinecone', 'Evaluation harnesses'],
   },
   {
     label: 'Design',

@@ -4,8 +4,6 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import type { IconType } from 'react-icons'
 import {
-  LuEye,
-  LuEyeOff,
   LuGrid,
   LuImage,
   LuPalette,
@@ -102,7 +100,6 @@ export default function ShaderDemo({
     scan: false,
   })
   const [failed, setFailed] = useState(false)
-  const [fps, setFps] = useState<number | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   // The draw loop reads the toggles without restarting WebGL.
@@ -164,8 +161,6 @@ export default function ShaderDemo({
 
     let frame = 0
     let visible = false
-    let frames = 0
-    let lastFpsAt = performance.now()
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -187,14 +182,6 @@ export default function ShaderDemo({
       for (const key of Object.keys(flags) as LayerKey[])
         gl.uniform1f(flags[key], layers.current[key] ? 1 : 0)
       gl.drawArrays(gl.TRIANGLES, 0, 6)
-
-      frames++
-      const now = performance.now()
-      if (now - lastFpsAt > 1000) {
-        setFps(Math.round((frames * 1000) / (now - lastFpsAt)))
-        frames = 0
-        lastFpsAt = now
-      }
     }
 
     const observer = new ResizeObserver(resize)
@@ -217,7 +204,6 @@ export default function ShaderDemo({
     }
   }, [tab])
 
-  const active = LAYERS.filter((l) => on[l.key]).length
   const showLive = tab === 'live' && !failed
 
   return (
@@ -266,14 +252,9 @@ export default function ShaderDemo({
               crossOrigin='anonymous'
               className='hidden'
             />
-            <div className='pointer-events-none absolute left-5 top-5 flex items-center gap-1.5 rounded-md bg-black/70 px-1.5 py-0.5 font-mono text-3xs text-muted'>
-              <span className='size-1.5 rounded-full bg-violet' />
-              WebGL · {active}/4 layers{fps ? ` · ${fps} fps` : ''}
-            </div>
           </div>
 
           <div className='flex flex-wrap items-center gap-1 border-t border-line p-2'>
-            <span className='px-1.5 text-2xs font-medium text-faint'>Layers</span>
             {LAYERS.map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
@@ -289,16 +270,8 @@ export default function ShaderDemo({
               >
                 <Icon className={cn('size-3', on[key] && 'text-violet')} aria-hidden />
                 {label}
-                {on[key] ? (
-                  <LuEye className='size-3 opacity-50' aria-hidden />
-                ) : (
-                  <LuEyeOff className='size-3 opacity-50' aria-hidden />
-                )}
               </button>
             ))}
-            <span className='ml-auto hidden px-1.5 text-3xs text-faint md:block'>
-              Click to toggle
-            </span>
           </div>
         </div>
       ) : (

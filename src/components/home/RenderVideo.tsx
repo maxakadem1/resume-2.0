@@ -19,10 +19,9 @@ const RenderVideo = forwardRef<
     source: Source
     className?: string
     lazy?: boolean
-    onTime?: (progress: number) => void
     paused?: boolean
   }
->(function RenderVideo({ source, className, lazy, onTime, paused }, ref) {
+>(function RenderVideo({ source, className, lazy, paused }, ref) {
   const local = useRef<HTMLVideoElement | null>(null)
   const [ready, setReady] = useState(false)
   const [near, setNear] = useState(!lazy)
@@ -67,18 +66,6 @@ const RenderVideo = forwardRef<
     if (paused) el.pause()
     else el.play().catch(() => {})
   }, [paused, near, source])
-
-  useEffect(() => {
-    if (!onTime) return
-    let frame = 0
-    const tick = () => {
-      const el = local.current
-      if (el && el.duration) onTime(el.currentTime / el.duration)
-      frame = requestAnimationFrame(tick)
-    }
-    frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [onTime])
 
   return (
     <video

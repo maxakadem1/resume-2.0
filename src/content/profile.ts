@@ -3,10 +3,10 @@ export const profile = {
   name: 'Maxim Abdulkhalikov',
   shortName: 'Maxim',
   role: 'Frontend Engineer',
-  currently: 'Acting tech lead at Pollard Banknote',
+  currently: 'Software Developer at Pollard Banknote',
   location: 'Winnipeg, Canada',
   summary:
-    'Frontend engineer and acting tech lead building the platform behind lottery apps played by millions, plus open-source tools for graphics, retrieval and games.',
+    'Frontend engineer building the shared platform behind lottery apps for 8 clients, plus open-source tools for AI retrieval and real-time graphics.',
   email: 'abdulhalikov0@gmail.com',
   links: {
     linkedin: 'https://www.linkedin.com/in/abdulkhalikov/',
@@ -18,13 +18,11 @@ export const profile = {
 export const renders = {
   blocks: {
     label: 'Blocks',
-    file: 'glass_blocks.blend',
     mp4: '/GlassBlocks2.mp4',
     webm: '/GlassBlocks2.webm',
   },
   rings: {
     label: 'Rings',
-    file: 'glass_rings.blend',
     mp4: '/glassDonuts.mp4',
     webm: '/glassDonuts.webm',
   },

@@ -2,11 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { LuArrowRight, LuArrowUpRight, LuGithub } from 'react-icons/lu'
+import LogoMedia from './LogoMedia'
 import ShaderDemo from './ShaderDemo'
 import {
   Badge,
   ButtonLink,
-  Dot,
   SectionHeader,
   WindowFrame,
   accentBg,
@@ -45,52 +45,32 @@ function Pipeline() {
 function Media({ project }: { project: FeaturedProject }) {
   if (project.slug === 'visual-lab') return <ShaderDemo screenshot={project.image} />
 
-  const host = project.live
-    ? new URL(project.live).host
-    : 'Terraria · tModLoader'
+  const host = project.live ? new URL(project.live).host : project.title
+  if (project.logo)
+    return <LogoMedia logo={project.logo} title={host} screenshot={project.image} />
   return (
-    <WindowFrame
-      title={host}
-      right={
-        project.live ? (
-          <span className='flex items-center gap-1 font-mono text-3xs text-mint'>
-            <Dot accent='mint' pulse />
-            live
-          </span>
-        ) : (
-          <span className='font-mono text-3xs text-amber'>wip</span>
-        )
-      }
-    >
-      <div className='relative bg-black'>
-        <Image
-          src={project.image.src}
-          alt={project.image.alt}
-          width={project.image.width}
-          height={project.image.height}
-          sizes='(min-width: 1280px) 640px, 100vw'
-          // The animated WebP is served as is, so it keeps playing.
-          unoptimized={project.slug === 'souls-of-terra'}
-          className={cn(
-            'h-auto w-full',
-            project.slug === 'souls-of-terra' && 'aspect-[4/3] object-cover [image-rendering:pixelated]',
-          )}
-        />
-      </div>
+    <WindowFrame title={host}>
+      <Image
+        src={project.image.src}
+        alt={project.image.alt}
+        width={project.image.width}
+        height={project.image.height}
+        sizes='(min-width: 1280px) 640px, 100vw'
+        className='h-auto w-full'
+      />
     </WindowFrame>
   )
 }
 
 function Featured({
   project,
-  index,
+  flip,
   extra,
 }: {
   project: FeaturedProject
-  index: number
+  flip: boolean
   extra?: ReactNode
 }) {
-  const flip = index % 2 === 1
   return (
     <article
       id={project.slug}
@@ -102,47 +82,35 @@ function Featured({
       </div>
 
       <div className='flex min-w-0 flex-col gap-5'>
-        <div className='flex flex-wrap items-center gap-2 text-2xs text-faint'>
-          <span className='font-mono'>{String(index + 1).padStart(2, '0')}</span>
-          <span className='h-px w-4 bg-line-strong' />
-          <Badge>
-            <Dot accent={project.accent} pulse={project.status === 'Live'} />
-            {project.status}
-          </Badge>
-          <span>{project.year}</span>
-        </div>
-
         <div className='flex flex-col gap-2'>
           <h3
             id={`${project.slug}-title`}
-            className='text-2xl font-medium tracking-tight text-foreground sm:text-[28px]'
+            className='flex flex-wrap items-center gap-x-3 gap-y-1 text-2xl font-medium tracking-tight text-foreground sm:text-[28px]'
           >
             {project.title}
+            {project.status && (
+              <Badge className='tracking-normal'>{project.status}</Badge>
+            )}
           </h3>
           <p className={cn('text-pretty text-[15px] leading-relaxed', accentText[project.accent])}>
             {project.tagline}
           </p>
         </div>
 
-        <p className='text-pretty text-[14px] leading-relaxed text-muted'>{project.body}</p>
-
         {extra}
 
-        <dl
-          className={cn(
-            'grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line',
-            project.stats.length === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-4',
-          )}
-        >
-          {project.stats.map((s) => (
-            <div key={s.label} className='flex flex-col gap-0.5 bg-black px-3 py-2.5'>
-              <dt className='text-2xs leading-snug text-faint'>{s.label}</dt>
-              <dd className='order-first text-lg font-medium tracking-tight text-foreground'>
-                {s.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        {project.stats && (
+          <dl className='grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line'>
+            {project.stats.map((s) => (
+              <div key={s.label} className='flex flex-col gap-0.5 bg-black px-3 py-2.5'>
+                <dt className='text-2xs leading-snug text-faint'>{s.label}</dt>
+                <dd className='order-first text-lg font-medium tracking-tight text-foreground'>
+                  {s.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
         <ul className='flex flex-col gap-2 text-[13px] leading-relaxed text-muted'>
           {project.highlights.map((h) => (
@@ -186,14 +154,8 @@ function Featured({
 export default function ProjectsSection() {
   return (
     <section id='projects' aria-labelledby='projects-title' className='scroll-mt-16 pt-24 md:pt-32'>
-      <SectionHeader
-        index='01'
-        eyebrow='Projects'
-        title={<span id='projects-title'>Things I built because I wanted them to exist.</span>}
-      >
-        Designed, built and shipped on my own time, end to end: an AI retrieval
-        system, a real-time graphics tool and a game mod. All open source, and
-        two of them are live right now.
+      <SectionHeader id='projects-title' title='Projects'>
+        Built on my own time, end to end. All open source.
       </SectionHeader>
 
       <div className='flex flex-col gap-20 md:gap-28'>
@@ -201,7 +163,7 @@ export default function ProjectsSection() {
           <Featured
             key={project.slug}
             project={project}
-            index={i}
+            flip={i % 2 === 1}
             extra={project.slug === 'godot-rag' ? <Pipeline /> : undefined}
           />
         ))}
@@ -238,13 +200,6 @@ export default function ProjectsSection() {
                   />
                 </div>
                 <p className='text-[13px] leading-relaxed text-muted'>{p.description}</p>
-                <div className='mt-auto flex flex-wrap gap-1 pt-1'>
-                  {p.tags.map((t) => (
-                    <Badge key={t} className='text-3xs'>
-                      {t}
-                    </Badge>
-                  ))}
-                </div>
               </div>
               {p.external && <span className='sr-only'> (opens in a new tab)</span>}
             </Link>
@@ -260,7 +215,6 @@ export default function ProjectsSection() {
               className='group flex items-center gap-1.5 text-muted transition-colors hover:text-foreground'
             >
               {p.title}
-              <span className='text-2xs text-faint'>{p.kind}</span>
               <LuArrowRight
                 className='size-3 text-faint transition group-hover:translate-x-0.5'
                 aria-hidden

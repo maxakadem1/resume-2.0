@@ -4,9 +4,9 @@
 
 
 Portfolio and resume site for Maxim Abdulkhalikov, a frontend engineer working
-in React, TypeScript and Next.js. It leads with personal projects (Godot Docs
-RAG, Visual Lab, Souls of Terra), then Pollard Banknote work with before and
-after metrics, experience, an about section and contact.
+in React, TypeScript and Next.js. It leads with Pollard Banknote work and its
+before and after metrics, then personal projects (Godot Docs RAG, Visual Lab),
+experience, an about section and contact.
 
 The design follows the same t3code-inspired system as
 [Visual Lab](https://github.com/maxakadem1/visual-lab) and
@@ -20,6 +20,7 @@ hairline borders, dense Inter and JetBrains Mono type, a sidebar shell and a
 - React and TypeScript
 - Tailwind CSS
 - WebGL (the Visual Lab demo shader)
+- three.js with React Three Fiber and drei (the glass logos)
 - React Icons (Lucide set)
 - React GA4 for page-view analytics
 
@@ -27,15 +28,17 @@ hairline borders, dense Inter and JetBrains Mono type, a sidebar shell and a
 
 - App-style shell: sticky sidebar with scroll-spy, breadcrumb top bar and a
   keyboard-driven command menu (`Ctrl/⌘ K`) that also serves as mobile nav.
-- Hero built around looping Blender renders, with a render switcher, play and
-  pause, and a live timeline.
+- Hero built around looping Blender renders, with a render switcher and
+  play/pause.
 - Featured project cards with screenshots, stats and links. The Visual Lab card
   runs a small WebGL port of its effects (pixelate, palette map, ordered dither,
   scan lines) live on the glass render.
-- Pollard case studies as metric cards (problem, approach, result).
+- Glass 3D logos for Pollard and Godot Docs RAG, ported from godot-rag: the
+  flat logo becomes a distance field, then a rounded mesh in transmission glass.
+- The Pollard work written as one plain-language block, like the projects.
 - Experience timeline, skills, artwork grid and a contact card with copy-email.
 - Gallery pages for earlier work and design, generated from one route. Old
-  case-study URLs redirect to their cards on the home page.
+  case-study URLs redirect to the Work section on the home page.
 - Semantic, accessible markup: landmarks, labelled toggles, screen-reader hints
   for links that open a new tab, and reduced-motion support.
 

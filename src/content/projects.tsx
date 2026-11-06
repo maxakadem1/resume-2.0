@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { GlassLogoName } from '@/components/three/logos'
 import { InlineLink } from '@/components/ui'
 
 export type Accent = 'sky' | 'violet' | 'amber' | 'mint'
@@ -11,44 +12,42 @@ export interface Stat {
 export interface FeaturedProject {
   slug: string
   title: string
-  year: string
-  status: string
+  /** Shown next to the title when the project isn't finished. */
+  status?: string
   accent: Accent
   tagline: string
-  body: string
   highlights: string[]
-  stats: Stat[]
+  /** Only for projects with numbers worth reading. */
+  stats?: Stat[]
   stack: string[]
   live?: string
   source: string
   image: { src: string; alt: string; width: number; height: number }
+  /** Shown as a spinning glass logo, with the screenshot one tab away. */
+  logo?: GlassLogoName
 }
 
 export const featured: FeaturedProject[] = [
   {
     slug: 'godot-rag',
     title: 'Godot Docs RAG',
-    year: '2026',
-    status: 'Live',
     accent: 'sky',
     tagline:
       'Ask the Godot Engine docs in plain English and watch every retrieval step happen.',
-    body: 'A retrieval-augmented generation pipeline built directly on the OpenAI and Pinecone SDKs, with no RAG framework. The Next.js front end streams the whole trace live: what vector search found, what keyword search found, how the two were fused and which chunks the answer cites.',
     highlights: [
-      'Custom reStructuredText parser and heading-aware chunking, measured with the embedding model’s own tokenizer',
-      'Hybrid retrieval: Pinecone vectors plus a hand-written BM25 index, fused with Reciprocal Rank Fusion',
-      'Grounded answers with citations, prompt-injection fencing and an evaluation harness behind every change',
-      'Incremental, crash-safe sync, Redis-backed rate limits and 57 offline tests in CI',
+      'Hybrid search: Pinecone vectors plus a hand-written BM25 index, fused with Reciprocal Rank Fusion. No RAG framework.',
+      'Grounded answers with citations, and an evaluation harness behind every change',
+      'Crash-safe incremental sync, rate limiting and 57 tests in CI',
     ],
     stats: [
-      { value: '8,580', label: 'chunks from 1,565 pages' },
       { value: '89%', label: 'hit rate @5' },
       { value: '0.81', label: 'MRR' },
-      { value: '$0.05', label: 'full re-index' },
+      { value: '8,580', label: 'chunks indexed' },
     ],
-    stack: ['Python', 'FastAPI', 'OpenAI', 'Pinecone', 'Next.js', 'three.js', 'Redis'],
+    stack: ['Python', 'FastAPI', 'OpenAI', 'Pinecone', 'Next.js', 'Redis'],
     live: 'https://godot-rag-sgky.vercel.app/',
     source: 'https://github.com/maxakadem1/godot-rag',
+    logo: 'godot',
     image: {
       src: '/work/godot-rag.webp',
       alt: 'Godot Docs RAG answering “How do I connect a signal in code?” with its pipeline trace open',
@@ -59,23 +58,15 @@ export const featured: FeaturedProject[] = [
   {
     slug: 'visual-lab',
     title: 'Visual Lab',
-    year: '2026',
-    status: 'Live',
     accent: 'violet',
     tagline:
-      'A browser effects workspace: stack pixel, dither, bloom and glitch layers on images and video in real time.',
-    body: 'Drop in an image or a video and build a treatment out of effect layers. Images render through Canvas 2D, video through a WebGL path, and nothing leaves the browser. The demo here is a small port of its shaders, running live on one of my Blender renders.',
+      'Stack pixel, dither, bloom and glitch layers on images and video in real time, entirely in the browser.',
     highlights: [
-      '10 stackable effects with drag-to-reorder, hide, duplicate and per-layer inspectors',
-      'Palette sampling from the source, hold-to-compare and full-resolution PNG export',
-      'Command menu, keyboard shortcuts, light and dark themes and mobile drawers',
+      '10 stackable effects: Canvas 2D for images, a WebGL path for video',
+      'Drag-to-reorder layers, palette sampling and full-resolution export',
+      'The demo here is a port of its shaders, running on one of my Blender renders',
     ],
-    stats: [
-      { value: '10', label: 'stackable effects' },
-      { value: 'WebGL', label: 'real-time video' },
-      { value: '100%', label: 'client-side' },
-    ],
-    stack: ['Next.js', 'TypeScript', 'WebGL', 'Canvas 2D', 'Tailwind'],
+    stack: ['Next.js', 'TypeScript', 'WebGL', 'Canvas 2D'],
     live: 'https://visual-lab-chi.vercel.app',
     source: 'https://github.com/maxakadem1/visual-lab',
     image: {
@@ -83,34 +74,6 @@ export const featured: FeaturedProject[] = [
       alt: 'Visual Lab with one of my drawings run through dither and scan-line layers',
       width: 1600,
       height: 1000,
-    },
-  },
-  {
-    slug: 'souls-of-terra',
-    title: 'Souls of Terra',
-    year: '2026',
-    status: 'In development',
-    accent: 'amber',
-    tagline:
-      'A Souls-inspired content mod for Terraria, built around a global soul economy.',
-    body: 'Enemies release souls, you carry them at your own risk, and death leaves your whole balance in a bloodstain you have to walk back to. Souls buy gear rather than levels: a forge to imbue and temper weapons, soulspells, mutations and an original boss in a buried court.',
-    highlights: [
-      'Rewards computed globally from each enemy’s scaled stats, so modded and Master Mode enemies pay fairly with no per-enemy tables',
-      'Server-authoritative balance and spending, synced in multiplayer',
-      'Procedurally drawn soul orbs whose colour, size and glow track their value, plus custom HLSL shaders',
-    ],
-    stats: [
-      { value: '25k', label: 'lines of C#' },
-      { value: '6', label: 'custom shaders' },
-      { value: '1', label: 'original boss' },
-    ],
-    stack: ['C#', 'tModLoader', 'HLSL', 'Game design'],
-    source: 'https://github.com/maxakadem1/SoulsOfTerra',
-    image: {
-      src: '/work/souls-of-terra.webp',
-      alt: 'A player in Terraria collecting soul orbs from defeated enemies',
-      width: 704,
-      height: 602,
     },
   },
 ]
@@ -121,7 +84,6 @@ export interface SmallProject {
   description: string
   href: string
   external?: boolean
-  tags: string[]
   image?: string
 }
 
@@ -130,28 +92,25 @@ export const moreProjects: SmallProject[] = [
     title: '3D Scratch Ticket',
     year: '2025',
     description:
-      'A physically based scratch-off ticket in three.js with a tunable holographic foil material.',
+      'A three.js scratch-off ticket with a holographic foil shader.',
     href: 'https://3d-scratch.vercel.app',
     external: true,
-    tags: ['three.js', 'React', 'Shaders'],
     image: '/work/scratch-ticket.webp',
   },
   {
     title: 'PacketVis',
     year: '2022',
     description:
-      'University research project: Wireshark captures rendered as packets flying across a 3D world map.',
+      'Research project: Wireshark captures as packets flying across a 3D map.',
     href: '/projects/packetvis',
-    tags: ['React', 'deck.gl', 'Mapbox', 'Flask'],
     image: '/packet_vis/pic1.png',
   },
   {
     title: 'DevClub website',
     year: '2022',
     description:
-      'Designed and built the University of Manitoba programming club’s site.',
+      'Designed and built the UofM programming club’s site.',
     href: '/projects/devclub',
-    tags: ['Design', 'Frontend'],
     image: '/devclub/pic1.png',
   },
 ]
