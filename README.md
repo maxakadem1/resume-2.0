@@ -3,46 +3,49 @@
 <img width="1392" height="1215" alt="image" src="https://github.com/user-attachments/assets/8237fb82-efa9-4c0d-9d87-db71a9c031e4" />
 
 
-Portfolio and resume site for Maxim Abdulkhalikov, a frontend developer working
-in React, TypeScript, and Next.js. It covers professional experience, case
-studies from production work, earlier design projects, artwork, and an embedded
-resume PDF.
+Portfolio and resume site for Maxim Abdulkhalikov, a frontend engineer working
+in React, TypeScript and Next.js. It leads with personal projects (Godot Docs
+RAG, Visual Lab, Souls of Terra), then Pollard Banknote work with before and
+after metrics, experience, an about section and contact.
 
-The site is built as a small static-friendly Next.js application with App Router
-routes, Tailwind styling, animated section transitions, and locally hosted media
-assets.
+The design follows the same t3code-inspired system as
+[Visual Lab](https://github.com/maxakadem1/visual-lab) and
+[Godot Docs RAG](https://github.com/maxakadem1/godot-rag): a pure black canvas,
+hairline borders, dense Inter and JetBrains Mono type, a sidebar shell and a
+`Ctrl K` command menu. Blender renders anchor the hero and contact sections.
 
 ## Tech Stack
 
 - Next.js 16 App Router
-- React
-- TypeScript
+- React and TypeScript
 - Tailwind CSS
-- React Spring for panel transitions
-- React Icons for navigation and external-link indicators
+- WebGL (the Visual Lab demo shader)
+- React Icons (Lucide set)
 - React GA4 for page-view analytics
 
 ## Features
 
-- Minimal single-screen home experience with animated background media.
-- Interactive content panels for experience, projects, about, and contact.
-- Typed content layer in `src/content/` that drives every panel and page.
-- Case study pages with before/after metrics, plus image galleries for earlier
-  work, all generated statically from one `/projects/[slug]` route.
-- Semantic, accessible markup: landmarks, heading hierarchy, labelled toggles,
-  and screen-reader hints for links that open a new tab.
-- Embedded PDF resume route.
-- Open Graph and Twitter metadata using `public/Header.png`.
-- GA4 page-view tracking.
-- ESLint configured for Next.js and TypeScript.
+- App-style shell: sticky sidebar with scroll-spy, breadcrumb top bar and a
+  keyboard-driven command menu (`Ctrl/⌘ K`) that also serves as mobile nav.
+- Hero built around looping Blender renders, with a render switcher, play and
+  pause, and a live timeline.
+- Featured project cards with screenshots, stats and links. The Visual Lab card
+  runs a small WebGL port of its effects (pixelate, palette map, ordered dither,
+  scan lines) live on the glass render.
+- Pollard case studies as metric cards (problem, approach, result).
+- Experience timeline, skills, artwork grid and a contact card with copy-email.
+- Gallery pages for earlier work and design, generated from one route. Old
+  case-study URLs redirect to their cards on the home page.
+- Semantic, accessible markup: landmarks, labelled toggles, screen-reader hints
+  for links that open a new tab, and reduced-motion support.
 
 ## Routes
 
-| Route                    | Purpose                                  |
-| ------------------------ | ---------------------------------------- |
-| `/`                      | Home page and interactive portfolio menu |
-| `/resume`                | Embedded `public/Resume.pdf` viewer      |
-| `/projects/[slug]`       | Case study or gallery page per project   |
+| Route              | Purpose                                         |
+| ------------------ | ----------------------------------------------- |
+| `/`                | Home page with every section                    |
+| `/projects/[slug]` | Gallery page for earlier work, design and art   |
+| `/resume`          | Embedded `public/Resume.pdf` viewer             |
 
 ## Project Structure
 
@@ -50,12 +53,9 @@ assets.
 .
 ├── analytics.ts
 ├── public/
-│   ├── Resume.pdf
-│   ├── Header.png
-│   ├── GlassBlocks2.webm
-│   ├── GlassBlocks2.mp4
-│   ├── glassDonuts.webm
-│   ├── glassDonuts.mp4
+│   ├── Resume.pdf, Header.png
+│   ├── GlassBlocks2.*, glassDonuts.*   Blender renders
+│   ├── work/                           project screenshots
 │   └── project image folders
 ├── src/
 │   ├── app/
@@ -63,26 +63,21 @@ assets.
 │   │   ├── page.tsx
 │   │   ├── resume/page.tsx
 │   │   └── projects/[slug]/page.tsx
-│   ├── content/
-│   │   ├── profile.ts
-│   │   ├── experience.ts
-│   │   └── projects.tsx
+│   ├── content/        profile, projects, work, experience, nav
 │   └── components/
-│       ├── HomePage.tsx
-│       ├── Panel.tsx
-│       ├── ProjectDetailPage.tsx
-│       ├── links.tsx
-│       └── content section components
-├── eslint.config.mjs
-├── tailwind.config.ts
+│       ├── shell/      Shell, Sidebar, TopBar, CommandMenu
+│       ├── home/       Hero, ShaderDemo and each home section
+│       ├── ui.tsx      buttons, badges, window frame, links
+│       └── Analytics.tsx
+├── tailwind.config.ts  design tokens
 └── package.json
 ```
 
 ## Editing Content
 
-All copy lives in `src/content/`. `experience.ts` mirrors `public/Resume.pdf`,
-so update both together. To add a project, append an entry to `caseStudies` or
-`galleryProjects` in `projects.tsx`; its page and menu link are generated.
+All copy lives in `src/content/`. `experience.ts` and `work.ts` mirror
+`public/Resume.pdf`, so update them together. Featured projects, smaller
+experiments and gallery pages are all in `projects.tsx`.
 
 ## Getting Started
 
