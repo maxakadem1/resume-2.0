@@ -1,0 +1,185 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generated pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Maxim Abdulkhalikov} \\ \vspace{1pt}
+    \small Software Developer $|$ React, TypeScript, Next.js $|$ Winnipeg, MB \\ \vspace{1pt}
+    \small 204-996-2313 $|$ \href{mailto:abdulhalikov0@gmail.com}{\underline{abdulhalikov0@gmail.com}} $|$
+    \href{https://linkedin.com/in/abdulkhalikov}{\underline{linkedin.com/in/abdulkhalikov}} $|$
+    \href{https://github.com/maxakadem1}{\underline{github.com/maxakadem1}}
+\end{center}
+
+%-----------SUMMARY-----------
+\section{Summary}
+\small{Software developer and acting technical lead building the platform behind lottery products used by millions of players across 8 clients. Owning systems from architecture to production, leading multi-developer launches, and mentoring engineers.}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+   \resumeSubheading
+      {Software Developer, Core Product Team}{Mar 2024 -- Present}
+      {Pollard Banknote}{Winnipeg, MB}
+        \resumeItemListStart
+        \resumeItem{Own the shared platform behind Pollard's lottery products: client web and mobile apps plus an embeddable widget system running 40+ widgets in production for each of 8 clients across multiple environments, serving millions of players. }
+        \resumeItem{Architected the widget system and 30+ React components, building about half of them myself.}
+        \resumeItem{Acting technical lead for Arizona's relaunch: led 8 developers over 12 weeks, organized workstreams, assigned ownership, and unblocked the team; shipped on time, with 30,000+ players on the site immediately after launch.}
+        \resumeItem{Developed react-core, the shared TypeScript API layer connecting every front end to Pollard's backend services for authentication, loyalty points, location verification, and gameplay.}
+        \resumeItem{Built Konsole, an internal tool for creating and managing database records (games, polls, surveys) through APIs instead of direct database edits, with role-based permissions and validation workflows.}
+        \resumeItem{Built a standalone widget development environment (sandboxes, hot reloading, Storybook, mock APIs, test harnesses) so developers and QA test widgets in isolation, cutting QA time per widget from a full day (7--8 hours) to under 10 minutes.}
+        \resumeItem{Chose and led the widget build's migration from Create React App to Vite, cutting dependency vulnerabilities from 380 (25 high/critical) to 0, shrinking bundles, and making the codebase maintainable again.}
+        \resumeItem{Led a production app's migration to Next.js, improving Speed Index from 5.1s to 1.3s and Largest Contentful Paint from 4.2s to 2.0s.}
+        \resumeItem{Built the build, versioning, and publishing pipelines for shared packages; deploy production Next.js apps on AWS Amplify with Route 53 DNS.}
+        \resumeItem{Technical escalation point for about 15 developers; mentor co-op through senior developers via pairing, code review, onboarding, and architecture documentation.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Frontend Architect and Developer}{May 2023 -- Jan 2024}
+      {OutreachGenius}{Winnipeg, MB}
+      \resumeItemListStart
+        \resumeItem{One of the first engineers at an early-stage startup; architected the product's UI system for both the SaaS web app and the Chrome extension.}
+        \resumeItem{Rewrote the Chrome extension from a legacy Vue codebase into a maintainable React and TypeScript codebase; the extension grew from 0 to 500+ users.}
+        \resumeItem{Established a Tailwind-based design system shared by the web app and extension, giving both products one consistent set of components and styles.}
+        \resumeItem{Integrated Firebase for real-time data and authentication across the web app and extension.}
+        \resumeItem{Designed the SaaS and extension layouts in Figma and implemented them end to end.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{Godot Docs RAG} $|$ \emph{Python, FastAPI, OpenAI, Pinecone, Next.js} $|$ \href{https://github.com/maxakadem1/godot-rag}{\underline{github.com/maxakadem1/godot-rag}}}{2026}
+          \resumeItemListStart
+            \resumeItem{Built a RAG system over the Godot Engine docs (1,565 pages, 8,580 chunks) on the OpenAI and Pinecone SDKs, with hybrid vector and keyword search and answers that cite their sources.}
+            \resumeItem{Built an evaluation set of 38 labelled questions to measure retrieval: vector search reached 89\% hit rate@5 and doubled recall on paraphrased questions over keyword search (30\% to 60\%).}
+            \resumeItem{Deployed a FastAPI backend and Next.js frontend on Vercel with streamed responses, rate limits, and a daily cap on LLM cost.}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Visual Lab} $|$ \emph{Next.js, React, TypeScript, WebGL, Canvas 2D} $|$ \href{https://visual-lab-chi.vercel.app/}{\underline{visual-lab-chi.vercel.app}} $|$ \href{https://github.com/maxakadem1/visual-lab}{\underline{GitHub}}}{}
+          \resumeItemListStart
+            \resumeItem{Designed and built a browser-based image and video editor with 10 customizable effects (pixelate, dither, bloom, glitch, and more) that run in real time, entirely client-side.}
+            \resumeItem{Built a layer system for stacking, drag-to-reorder, configuring, hiding, and removing effects, with live previews as parameters change.}
+            \resumeItem{Implemented two rendering pipelines: Canvas 2D for images and WebGL shaders for video, so effects stay real-time on moving footage.}
+            \resumeItem{Added palette extraction, drag-and-drop uploads, video playback controls, and full-resolution PNG export.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-----------SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: TypeScript, JavaScript, Java, GraphQL, Python} \\
+     \textbf{Frameworks}{: React, Next.js, React Native, Node.js, Vite, Vue.js} \\
+     \textbf{Cloud and Infrastructure}{: AWS (Amplify, Route 53), Firebase, Vercel, CI/CD, monorepos, package publishing} \\
+     \textbf{Tools}{: Jest, Playwright, Storybook, Contentful (CMS), Redux, Tailwind, Figma, accessibility (WCAG)}
+    }}
+ \end{itemize}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of Manitoba}{Winnipeg, MB}
+      {B.Sc. Computer Science}{Sep 2018 -- May 2023}
+    \resumeSubheading
+      {Art School of Kasteyev}{Almaty, KZ}
+      {Diploma in Art and Design}{Sep 2016 -- Jun 2018}
+  \resumeSubHeadingListEnd
+
+%-----------VOLUNTEERING-----------
+\section{Volunteering}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{DevClub / Hackathon Winnipeg} $|$ \emph{Promotions Executive, Lead Designer}}{Apr 2022 -- Present}
+          \resumeItemListStart
+            \resumeItem{Organized the largest UofM hackathon since 2015; secured sponsors for events of 200--300+ students.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+\end{document}
+
