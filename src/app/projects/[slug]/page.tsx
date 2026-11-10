@@ -2,10 +2,9 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { LuArrowLeft } from 'react-icons/lu'
-import Shell from '@/components/shell/Shell'
-import { Badge, ButtonLink } from '@/components/ui'
-import { galleryProjects, getGalleryProject } from '@/content/projects'
+import Footer from '@/components/Footer'
+import { ExternalLink } from '@/components/ui'
+import { galleryProjects, getGalleryProject } from '@/content/site'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -27,87 +26,108 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
+
 export default async function ProjectPage({ params }: Props) {
   const project = getGalleryProject((await params).slug)
   if (!project) notFound()
 
-  const others = galleryProjects.filter((p) => p.slug !== project.slug)
+  const index = galleryProjects.indexOf(project)
+  const next = galleryProjects[(index + 1) % galleryProjects.length]
 
   return (
-    <Shell crumb={project.title}>
-      <main className='mx-auto grid w-full max-w-[1240px] gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-14 lg:py-12 xl:px-10'>
-        <aside className='flex flex-col gap-6 lg:sticky lg:top-24 lg:h-fit'>
-          <Link
-            href='/#projects'
-            className='group flex w-fit items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-foreground'
-          >
-            <LuArrowLeft className='size-3.5 transition group-hover:-translate-x-0.5' aria-hidden />
-            All projects
-          </Link>
+    <>
+      <main
+        id='main'
+        className='mx-auto w-full max-w-page px-5 pt-28 sm:px-8 lg:px-12'
+      >
+        <Link href='/#projects' className='label transition-colors hover:text-fg'>
+          <span className='fringe'>← All projects</span>
+        </Link>
 
-          <div className='flex flex-col gap-3'>
-            <div className='flex items-center gap-2'>
-              <Badge>{project.kind}</Badge>
-              <span className='text-2xs text-faint'>{project.year}</span>
+        <header className='mt-8 grid gap-x-8 gap-y-6 border-t border-line-strong pt-5 md:grid-cols-12'>
+          <p className='label md:col-span-3'>
+            <span className='text-fg'>{project.kind}</span>
+            <span className='px-2' aria-hidden>
+              —
+            </span>
+            {project.year}
+          </p>
+          <h1 className='display [font-size:clamp(3.4rem,11vw,10rem)] md:col-span-9'>
+            {project.title}
+          </h1>
+        </header>
+
+        <div className='grid gap-x-8 gap-y-10 pt-12 md:grid-cols-12 md:pt-20'>
+          <aside className='md:col-span-4 lg:col-span-3'>
+            <div className='flex flex-col gap-6 md:sticky md:top-24'>
+              <div className='flex flex-col gap-4 text-pretty leading-relaxed text-muted'>
+                {project.body}
+              </div>
+              {project.links && (
+                <div className='flex flex-wrap gap-3'>
+                  {project.links.map((link) => (
+                    <ExternalLink key={link.href} href={link.href} className='btn'>
+                      {link.label} <span aria-hidden>↗</span>
+                    </ExternalLink>
+                  ))}
+                </div>
+              )}
+              <p className='label border-t border-line pt-4'>
+                {project.images.length} plates
+              </p>
             </div>
-            <h1 className='text-3xl font-medium tracking-tight text-foreground'>
-              {project.title}
-            </h1>
-          </div>
+          </aside>
 
-          <div className='flex flex-col gap-3 text-pretty text-[14px] leading-relaxed text-muted'>
-            {project.body}
-          </div>
-
-          {project.links && (
-            <div className='flex flex-wrap gap-2'>
-              {project.links.map((l) => (
-                <ButtonLink key={l.href} href={l.href} variant='outline'>
-                  {l.label}
-                </ButtonLink>
-              ))}
-            </div>
-          )}
-
-          <nav aria-label='Other projects' className='border-t border-line pt-5'>
-            <h2 className='pb-2 text-2xs font-medium uppercase tracking-wider text-faint'>
-              More work
-            </h2>
-            <ul className='flex flex-col gap-px'>
-              {others.map((p) => (
-                <li key={p.slug}>
-                  <Link
-                    href={`/projects/${p.slug}`}
-                    className='-mx-2.5 flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-[13px] text-muted transition-colors hover:bg-hover hover:text-foreground'
-                  >
-                    {p.title}
-                    <span className='ml-auto text-2xs text-faint'>{p.kind}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </aside>
-
-        <div className='flex flex-col gap-3'>
-          {project.images.map((image, index) => (
-            <div
-              key={image}
-              className='overflow-hidden rounded-xl border border-line bg-surface'
-            >
-              <Image
-                src={image}
-                alt={`${project.title}, image ${index + 1}`}
-                width={1400}
-                height={1000}
-                sizes='(min-width: 1024px) 820px, 100vw'
-                className='h-auto w-full'
-                priority={index === 0}
-              />
-            </div>
-          ))}
+          <ol className='grid gap-x-6 gap-y-10 sm:grid-cols-2 md:col-span-8 lg:col-span-9'>
+            {project.images.map((image, i) => (
+              <li
+                key={image}
+                data-reveal
+                className={i % 3 === 0 ? 'sm:col-span-2' : ''}
+              >
+                <figure>
+                  <div className='plate'>
+                    <Image
+                      src={image}
+                      alt={`${project.title}, plate ${i + 1}`}
+                      width={1100}
+                      height={1100}
+                      sizes={
+                        i % 3 === 0
+                          ? '(min-width: 768px) 66vw, 100vw'
+                          : '(min-width: 768px) 33vw, 100vw'
+                      }
+                      className='h-auto w-full'
+                      priority={i === 0}
+                    />
+                  </div>
+                  <figcaption className='label mt-3'>
+                    <span className='text-fg'>Pl. {roman[i] ?? i + 1}</span>
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ol>
         </div>
+
+        <Link
+          href={`/projects/${next.slug}`}
+          className='group mt-28 flex items-end justify-between gap-6 border-t border-line-strong pt-5 md:mt-40'
+        >
+          <span className='label'>Next — {next.kind}</span>
+          <span className='display text-right text-6xl sm:text-8xl'>
+            <span className='fringe'>{next.title}</span>{' '}
+            <span
+              aria-hidden
+              className='inline-block font-sans text-4xl text-muted transition-transform duration-300 ease-out group-hover:translate-x-2'
+            >
+              →
+            </span>
+          </span>
+        </Link>
       </main>
-    </Shell>
+      <Footer />
+    </>
   )
 }

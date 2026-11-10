@@ -3,84 +3,77 @@
 <img width="1392" height="1215" alt="image" src="https://github.com/user-attachments/assets/8237fb82-efa9-4c0d-9d87-db71a9c031e4" />
 
 
-Portfolio and resume site for Maxim Abdulkhalikov, a frontend engineer working
-in React, TypeScript and Next.js. It leads with Pollard Banknote work and its
-before and after metrics, then personal projects (Godot Docs RAG, Visual Lab),
-experience, an about section and contact.
+Portfolio and resume site for Maxim Abdulkhalikov, a software developer working
+in React, TypeScript and Next.js.
 
-The design follows the same t3code-inspired system as
-[Visual Lab](https://github.com/maxakadem1/visual-lab) and
-[Godot Docs RAG](https://github.com/maxakadem1/godot-rag): a pure black canvas,
-hairline borders, dense Inter and JetBrains Mono type, a sidebar shell and a
-`Ctrl K` command menu. Blender renders anchor the hero and contact sections.
+The design is taken from my own ink drawings: white engraved line on black, one
+acid yellow, and a red and green fringe where the glow misregisters. The hero is
+drawn live in that style by a fragment shader, and the whole site flips between
+an "ink" theme and the "paper" print pulled from it.
 
 ## Tech Stack
 
-- Next.js 16 App Router
-- React and TypeScript
-- Tailwind CSS
-- WebGL (the Visual Lab demo shader)
-- three.js with React Three Fiber and drei (the glass logos)
-- React Icons (Lucide set)
+- Next.js 16 App Router, React 19, TypeScript
+- Tailwind CSS, with colours as CSS variables so both themes share every class
+- Raw WebGL for the hero (no three.js): one ray-marched fragment shader
+- Instrument Serif, Geist and Geist Mono through `next/font`
 - React GA4 for page-view analytics
 
 ## Features
 
-- App-style shell: sticky sidebar with scroll-spy, breadcrumb top bar and a
-  keyboard-driven command menu (`Ctrl/⌘ K`) that also serves as mobile nav.
-- Hero built around looping Blender renders, with a render switcher and
-  play/pause.
-- Featured project cards with screenshots, stats and links. The Visual Lab card
-  runs a small WebGL port of its effects (pixelate, palette map, ordered dither,
-  scan lines) live on the glass render.
-- Glass 3D logos for Pollard, OutreachGenius and Godot Docs RAG, ported from godot-rag: the
-  flat logo becomes a distance field, then a rounded mesh in transmission glass.
-- Work history (Pollard, OutreachGenius) written as plain-language blocks, like the projects.
-- Experience timeline, skills, artwork grid and a contact card with copy-email.
-- Gallery pages for earlier work and design, generated from one route. Old
-  case-study URLs redirect to the Work section on the home page.
-- Semantic, accessible markup: landmarks, labelled toggles, screen-reader hints
-  for links that open a new tab, and reduced-motion support.
+- Hero engraving: an armillary of rings around a cut gem, ray-marched and then
+  hatched so line weight stands in for tone. It follows the pointer, inks in on
+  load, pauses off screen and holds still under reduced motion.
+- Ink and paper themes, saved to `localStorage` and applied before first paint.
+- Work section with a before and after ledger drawn to scale.
+- Featured projects as framed plates, and an archive index with an image that
+  follows the cursor (thumbnails on touch screens).
+- Experience, education, volunteering and toolkit in one record section.
+- Gallery pages for earlier work, design and art, generated from one route. Old
+  case-study URLs redirect to the Work section.
+- Semantic, accessible markup: skip link, landmarks, labelled controls,
+  screen-reader hints for new-tab links, and content that stays visible
+  without JavaScript.
 
 ## Routes
 
-| Route              | Purpose                                         |
-| ------------------ | ----------------------------------------------- |
-| `/`                | Home page with every section                    |
-| `/projects/[slug]` | Gallery page for earlier work, design and art   |
-| `/resume`          | Embedded `public/Resume.pdf` viewer             |
+| Route              | Purpose                                       |
+| ------------------ | --------------------------------------------- |
+| `/`                | Home page with every section                  |
+| `/projects/[slug]` | Gallery page for earlier work, design and art |
+| `/resume`          | Embedded `public/Resume.pdf` viewer           |
 
 ## Project Structure
 
 ```text
 .
-├── analytics.ts
 ├── public/
 │   ├── Resume.pdf, Header.png
 │   ├── GlassBlocks2.*, glassDonuts.*   Blender renders
 │   ├── work/                           project screenshots
 │   └── project image folders
+├── resume/Resume.tex                   source of Resume.pdf
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
+│   │   ├── globals.css                 theme tokens and shared styles
+│   │   ├── layout.tsx, page.tsx, not-found.tsx
 │   │   ├── resume/page.tsx
 │   │   └── projects/[slug]/page.tsx
-│   ├── content/        profile, projects, work, experience, nav
+│   ├── content/site.tsx                every word and number on the site
 │   └── components/
-│       ├── shell/      Shell, Sidebar, TopBar, CommandMenu
-│       ├── home/       Hero, ShaderDemo and each home section
-│       ├── ui.tsx      buttons, badges, window frame, links
-│       └── Analytics.tsx
-├── tailwind.config.ts  design tokens
+│       ├── EngravingCanvas.tsx         the hero shader
+│       ├── Hero, Work, Projects, Archive, Record, About, Contact, Footer
+│       ├── Nav.tsx                     navigation, theme toggle, clock
+│       ├── RevealObserver.tsx          scroll reveals for `data-reveal`
+│       └── ui.tsx                      section header, links, stack list
+├── tailwind.config.ts
 └── package.json
 ```
 
 ## Editing Content
 
-All copy lives in `src/content/`. `experience.ts` and `work.ts` mirror
-`public/Resume.pdf`, so update them together. Featured projects, smaller
-experiments and gallery pages are all in `projects.tsx`.
+All copy lives in `src/content/site.tsx`. It mirrors `resume/Resume.tex` and
+`public/Resume.pdf`, so update them together.
 
 ## Getting Started
 

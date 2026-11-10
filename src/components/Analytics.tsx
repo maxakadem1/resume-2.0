@@ -2,24 +2,21 @@
 
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
-import { initGA, logPageView } from '../../analytics'
+import ReactGA from 'react-ga4'
 
-declare global {
-  interface Window {
-    GA_INITIALIZED?: boolean
-  }
-}
+const MEASUREMENT_ID = 'G-5HV07H8C8H'
+let initialized = false
 
 /** Sends a GA4 page view on every route change. */
 export default function Analytics() {
   const pathname = usePathname()
 
   useEffect(() => {
-    if (!window.GA_INITIALIZED) {
-      initGA()
-      window.GA_INITIALIZED = true
+    if (!initialized) {
+      ReactGA.initialize(MEASUREMENT_ID)
+      initialized = true
     }
-    logPageView()
+    ReactGA.send({ hitType: 'pageview', page: pathname })
   }, [pathname])
 
   return null

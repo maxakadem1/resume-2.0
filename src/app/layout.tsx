@@ -1,11 +1,19 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google'
 import Analytics from '@/components/Analytics'
-import { profile } from '@/content/profile'
+import Nav from '@/components/Nav'
+import RevealObserver from '@/components/RevealObserver'
+import { profile } from '@/content/site'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
+const sans = Geist({ subsets: ['latin'], variable: '--font-sans' })
+const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' })
+const serif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+})
 
 const defaultTitle = `${profile.name} · ${profile.role}`
 
@@ -35,9 +43,12 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#000000',
-  colorScheme: 'dark',
+  themeColor: '#090908',
 }
+
+// Runs before first paint: restores the saved theme and marks the document as
+// scripted, which is what lets globals.css hide elements awaiting a reveal.
+const boot = `try{var t=localStorage.getItem('theme');if(t==='paper')document.documentElement.dataset.theme='paper'}catch(e){}document.documentElement.classList.add('js')`
 
 export default function RootLayout({
   children,
@@ -45,9 +56,24 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en' className={`${inter.variable} ${mono.variable}`}>
-      <body className='font-sans text-[14px] leading-normal'>
+    <html
+      lang='en'
+      className={`${sans.variable} ${mono.variable} ${serif.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: boot }} />
+      </head>
+      <body>
+        <a
+          href='#main'
+          className='btn btn-solid fixed left-4 top-4 z-[100] -translate-y-24 focus:translate-y-0'
+        >
+          Skip to content
+        </a>
+        <Nav />
         {children}
+        <RevealObserver />
         <Analytics />
       </body>
     </html>

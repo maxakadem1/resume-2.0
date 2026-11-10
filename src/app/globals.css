@@ -2,124 +2,315 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    color-scheme: dark;
-  }
+/*
+  Two themes drawn from the same engraving: "ink" is white line on black, the
+  way the artwork is drawn; "paper" is the print pulled from that plate.
+  The acid yellow is the one colour in the drawings, so it is the one accent.
+*/
+:root {
+  --bg: 9 9 8;
+  --surface: 19 19 17;
+  --fg: 237 235 226;
+  --muted: 154 152 142;
+  --faint: 98 97 90;
+  --acid: 228 255 26;
+  --fringe-a: 255 60 60;
+  --fringe-b: 40 255 140;
+  color-scheme: dark;
+}
 
+[data-theme='paper'] {
+  --bg: 236 233 223;
+  --surface: 226 223 211;
+  --fg: 17 17 15;
+  --muted: 88 86 78;
+  --faint: 134 131 121;
+  --acid: 222 250 0;
+  color-scheme: light;
+}
+
+@layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 4.5rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background: #000;
-    color: theme('colors.foreground');
-    font-feature-settings: 'cv11', 'ss01';
-    -webkit-font-smoothing: antialiased;
+    @apply bg-bg font-sans text-fg antialiased;
+    font-size: 15px;
+    line-height: 1.6;
+    font-feature-settings: 'ss01', 'cv11';
+    transition:
+      background-color 0.5s ease,
+      color 0.5s ease;
   }
 
   ::selection {
-    background: rgb(61 99 240 / 0.4);
+    background: rgb(var(--acid));
+    color: #0a0a09;
   }
 
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: rgb(255 255 255 / 0.12) transparent;
-  }
-}
-
-@layer utilities {
-  .surface-dots {
-    background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-position: center;
+  :focus-visible {
+    outline: 2px solid rgb(var(--acid));
+    outline-offset: 3px;
   }
 
-  .glass {
-    background: rgb(14 14 14 / 0.72);
-    backdrop-filter: blur(16px) saturate(1.08);
-    -webkit-backdrop-filter: blur(16px) saturate(1.08);
-  }
-
-  /* Fades a square render on black into the page, so it has no visible edge. */
-  .render-mask {
-    mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
-    -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
-  }
-
-  .fade-bottom {
-    mask-image: linear-gradient(to bottom, #000 60%, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  [data-theme='paper'] :focus-visible {
+    outline-color: rgb(var(--fg));
   }
 }
 
-/* Live label: a light sweep across the text, as t3code does for running tools. */
-.shine {
-  background: linear-gradient(90deg, #a3a3a3 30%, #f2f2f2 50%, #a3a3a3 70%);
-  background-size: 300% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: shine 2.4s linear infinite;
+@layer components {
+  /* Small mono caption, the voice of every label on the site. */
+  .label {
+    @apply font-mono text-[11px] uppercase leading-4 tracking-[0.14em] text-muted;
+  }
+
+  .display {
+    @apply font-serif font-normal;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+
+  /*
+    The accent. On ink it is glowing yellow text, as in the drawings. Yellow
+    text is unreadable on paper, so there it becomes a highlighter stroke.
+  */
+  .mark {
+    color: rgb(var(--acid));
+    text-shadow: 0 0 18px rgb(var(--acid) / 0.45);
+  }
+
+  [data-theme='paper'] .mark {
+    color: rgb(var(--fg));
+    text-shadow: none;
+    background: linear-gradient(
+      transparent 12%,
+      rgb(var(--acid)) 12%,
+      rgb(var(--acid)) 88%,
+      transparent 88%
+    );
+    padding-inline: 0.12em;
+    margin-inline: -0.12em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* Engraver's hatching, used as a fill wherever a tone is needed. */
+  .hatch {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(var(--fg) / 0.5) 0 1px,
+      transparent 1px 5px
+    );
+  }
+
+  .hatch-faint {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(var(--fg) / 0.13) 0 1px,
+      transparent 1px 6px
+    );
+  }
+
+  /* A halo in the background colour, so type can sit on top of a drawing. */
+  .knockout {
+    -webkit-text-stroke: 0.09em rgb(var(--bg));
+    paint-order: stroke fill;
+  }
+
+  /* Type filled with hatching instead of a flat colour. */
+  .hatch-text {
+    color: transparent;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(var(--fg) / 0.55) 0 1px,
+      transparent 1px 4px
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* Misregistered print: the red and green fringe from the drawings' glow. */
+  .fringe {
+    transition: text-shadow 0.25s ease;
+  }
+
+  .fringe:hover,
+  a:hover > .fringe,
+  .group:hover .fringe {
+    text-shadow:
+      -2px 0 rgb(var(--fringe-a) / 0.85),
+      2px 0 rgb(var(--fringe-b) / 0.85);
+  }
+
+  .link {
+    @apply underline decoration-line-strong decoration-1 underline-offset-4 transition-colors;
+  }
+
+  .link:hover {
+    text-decoration-color: rgb(var(--acid));
+  }
+
+  [data-theme='paper'] .link:hover {
+    text-decoration-color: rgb(var(--fg));
+  }
+
+  .btn {
+    @apply inline-flex h-11 items-center gap-2.5 border border-line-strong px-5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg transition-colors duration-200;
+  }
+
+  .btn:hover {
+    @apply border-fg bg-fg text-bg;
+  }
+
+  .btn-solid {
+    background: rgb(var(--acid));
+    border-color: rgb(var(--acid));
+    color: #0a0a09;
+  }
+
+  .btn-solid:hover {
+    @apply border-fg bg-fg text-bg;
+  }
+
+  /* A framed image with corner ticks, like a plate in a folio. */
+  .plate {
+    @apply relative border border-line bg-surface;
+  }
+
+  .plate::before,
+  .plate::after {
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 1px solid rgb(var(--fg) / 0.7);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .plate::before {
+    top: -1px;
+    left: -1px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+
+  .plate::after {
+    right: -1px;
+    bottom: -1px;
+    border-left: 0;
+    border-top: 0;
+  }
 }
 
-@keyframes shine {
+/*
+  Scroll reveals. Content is only hidden once the inline script in layout.tsx
+  has confirmed JavaScript runs, so nothing is lost without it.
+*/
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Ledger bars grow from the left when their row is revealed. */
+.js .bar {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.js [data-reveal='in'] .bar {
+  transform: scaleX(1);
+}
+
+/* Hero entrance: each line of the name rises out of its own clip. */
+.rise {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.rise > span {
+  display: block;
+  animation: rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+
+@keyframes rise {
   from {
-    background-position: 100% 0;
-  }
-  to {
-    background-position: -100% 0;
+    transform: translateY(105%);
   }
 }
 
 .fade-in {
-  animation: fade-in 320ms ease-out both;
+  animation: fade-in 1.2s ease both;
+  animation-delay: var(--rise-delay, 0ms);
 }
 
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(4px);
   }
+}
+
+.marquee {
+  animation: marquee 48s linear infinite;
+}
+
+.marquee-wrap:hover .marquee {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
   to {
-    opacity: 1;
-    transform: none;
+    transform: translateX(-50%);
   }
 }
 
-.pop-in {
-  animation: pop-in 160ms cubic-bezier(0.32, 0.72, 0, 1) both;
-}
-
-@keyframes pop-in {
-  from {
-    opacity: 0;
-    transform: scale(0.98) translateY(-4px);
+@keyframes blink {
+  50% {
+    opacity: 0.25;
   }
 }
 
-/* Video fades in once the first frame is ready. */
-.video-fade {
-  opacity: 0;
-  transition: opacity 700ms ease-out;
-}
-
-.video-fade[data-ready='true'] {
-  opacity: 1;
+.blink {
+  animation: blink 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .shine {
-    animation: none;
-    background: none;
-    color: #f2f2f2;
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
-  .fade-in,
-  .pop-in {
+
+  .marquee {
     animation: none;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
   }
 }

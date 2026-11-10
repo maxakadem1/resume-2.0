@@ -1,33 +1,39 @@
 import type { Metadata } from 'next'
-import { LuDownload } from 'react-icons/lu'
-import Shell from '@/components/shell/Shell'
-import { buttonClass } from '@/components/ui'
-import { profile } from '@/content/profile'
+import Footer from '@/components/Footer'
+import { profile } from '@/content/site'
 
 export const metadata: Metadata = {
-  title: 'Resume',
+  title: 'Résumé',
 }
 
 export default function ResumePage() {
   return (
-    <Shell crumb='Resume'>
-      <main className='flex flex-1 flex-col gap-3 p-3 sm:p-6'>
-        <div className='flex items-center justify-between gap-3'>
-          <h1 className='text-[13px] text-muted'>
-            {profile.name} <span className='text-faint'>· Resume</span>
-          </h1>
-          <a href='/Resume.pdf' download className={buttonClass('outline', 'sm')}>
-            <LuDownload aria-hidden />
-            Download PDF
+    <>
+      <main
+        id='main'
+        className='mx-auto flex min-h-[100svh] w-full max-w-page flex-col px-5 pt-28 sm:px-8 lg:px-12'
+      >
+        <div className='flex flex-wrap items-end justify-between gap-6 border-b border-line-strong pb-6'>
+          <div>
+            <p className='label'>{profile.name}</p>
+            <h1 className='display mt-3 text-6xl sm:text-8xl'>
+              Résumé, <em className='mark'>on paper.</em>
+            </h1>
+          </div>
+          <a href='/Resume.pdf' download className='btn btn-solid'>
+            Download PDF <span aria-hidden>↓</span>
           </a>
         </div>
         {/* The PDF lives in public so it can be opened directly as well. */}
-        <iframe
-          className='min-h-[80vh] w-full flex-1 rounded-xl border border-line bg-surface'
-          src='/Resume.pdf'
-          title='Resume PDF'
-        />
+        <div className='plate mt-8 flex-1'>
+          <iframe
+            className='block h-full min-h-[82vh] w-full bg-white'
+            src='/Resume.pdf'
+            title='Résumé PDF'
+          />
+        </div>
       </main>
-    </Shell>
+      <Footer />
+    </>
   )
 }
